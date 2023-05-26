@@ -1,0 +1,44 @@
+<form [formGroup]="generator" (ngSubmit)="generate()">
+  <div class="title">
+    <h3>Critères de génération :</h3>
+    <div class="hint">
+      Veuillez saisir le nombre de personnes à générer ainsi que le choix du
+      genre.
+    </div>
+  </div>
+
+  <mat-form-field class="count">
+    <input
+      matInput
+      type="number"
+      min="0"
+      max="1000"
+      placeholder="Nombre"
+      formControlName="count"
+    />
+    <mat-error *ngIf="generator.get('count').invalid">
+      <ng-container *ngIf="generator.get('count').errors.max"
+        >La quantité maximale de personnes est
+        {{ generator.get("count").errors.max.max }}
+      </ng-container>
+
+      <ng-container *ngIf="generator.get('count').errors.min"
+        >La quantité minimale de personnes est
+        {{ generator.get("count").errors.min.min }}
+      </ng-container>
+    </mat-error>
+  </mat-form-field>
+  <div class="gender form-field">
+    <mat-checkbox class="Homme" formControlName="male">Homme</mat-checkbox>
+    <mat-checkbox class="Femme" formControlName="female">Femme</mat-checkbox>
+    <mat-error [@inAnimation] *ngIf="generator.errors?.missGender"
+      >Choisissez un genre</mat-error
+    >
+  </div>
+
+  <div class="actions">
+    <button mat-raised-button type="submit" [disabled]="generator.invalid">
+      Générer
+    </button>
+  </div>
+</form>
